@@ -68,6 +68,11 @@ class User extends Authenticatable
         return $this->hasMany(Medication::class);
     }
 
+    public function healthPlans(): HasMany
+    {
+        return $this->hasMany(HealthPlan::class);
+    }
+
     // Helper methods
     public function getActiveMedications()
     {

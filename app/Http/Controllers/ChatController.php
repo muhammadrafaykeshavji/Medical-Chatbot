@@ -4,19 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\ChatConversation;
 use App\Models\ChatMessage;
-use App\Services\GeminiAIService;
-use App\Events\MessageSent;
+use App\Services\OpenAIService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
-    private GeminiAIService $geminiService;
+    private OpenAIService $aiService;
 
-    public function __construct(GeminiAIService $geminiService)
+    public function __construct(OpenAIService $aiService)
     {
-        $this->geminiService = $geminiService;
+        $this->aiService = $aiService;
     }
 
     public function index()
@@ -45,73 +45,113 @@ class ChatController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $request->validate([
-            'message' => 'required|string|max:1000',
-            'conversation_id' => 'nullable|exists:chat_conversations,id',
-            'type' => 'in:general,symptom_check,health_advice'
-        ]);
+        try {
+            // Validate input
+            $request->validate([
+                'message' => 'required|string|max:1000',
+                // limit to enum values in migration
+                'type' => 'nullable|in:general,symptom_check,health_advice'
+            ]);
 
-        $user = Auth::user();
-        $conversationId = $request->conversation_id;
-        $type = $request->type ?? 'general';
+            $user = Auth::user();
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Please log in to use the chat feature.'
+                ], 401);
+            }
 
-        // Create new conversation if none provided
-        if (!$conversationId) {
-            $conversation = ChatConversation::create([
+            $userMessage = $request->message;
+            // Default to a valid enum value defined in migration
+            $type = in_array($request->type, ['general','symptom_check','health_advice'])
+                ? $request->type
+                : 'general';
+
+            Log::info('Processing chat message', ['user_id' => $user->id, 'message' => $userMessage]);
+
+            // Create or get conversation
+            $conversation = ChatConversation::firstOrCreate([
                 'user_id' => $user->id,
-                'title' => $this->generateConversationTitle($request->message),
                 'type' => $type,
                 'is_active' => true,
+            ], [
+                'title' => $this->generateConversationTitle($userMessage),
                 'last_message_at' => now(),
             ]);
-            $conversationId = $conversation->id;
-        } else {
-            $conversation = ChatConversation::findOrFail($conversationId);
-            
-            // Ensure user owns this conversation
-            if ($conversation->user_id !== $user->id) {
-                return response()->json(['error' => 'Unauthorized'], 403);
-            }
-            
+
+            // Update conversation timestamp
             $conversation->update(['last_message_at' => now()]);
+
+            // Store user message
+            $userMessageRecord = ChatMessage::create([
+                'conversation_id' => $conversation->id,
+                'sender_type' => 'user',
+                'message' => $userMessage,
+            ]);
+
+            // Build recent conversation context (last 10 messages)
+            $contextMessages = $conversation->messages()
+                ->orderBy('created_at', 'desc')
+                ->limit(10)
+                ->get()
+                ->reverse()
+                ->map(function ($m) {
+                    return [
+                        'sender_type' => $m->sender_type,
+                        'message' => $m->message,
+                    ];
+                })
+                ->values()
+                ->toArray();
+
+            // Generate AI response via service (falls back internally if API unavailable)
+            $serviceResult = $this->aiService->generateMedicalResponse($userMessage, $contextMessages, $type);
+            $aiResponseText = $serviceResult['response'] ?? 'I\'m sorry, I\'m having trouble responding right now. Please try again.';
+
+            // Store AI message
+            $aiMessageRecord = ChatMessage::create([
+                'conversation_id' => $conversation->id,
+                'sender_type' => 'ai',
+                'message' => $aiResponseText,
+            ]);
+
+            Log::info('Chat message processed successfully', [
+                'conversation_id' => $conversation->id,
+                'user_message_id' => $userMessageRecord->id,
+                'ai_message_id' => $aiMessageRecord->id
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'conversation_id' => $conversation->id,
+                'user_message' => $userMessageRecord,
+                'ai_message' => $aiMessageRecord,
+                'metadata' => $serviceResult['metadata'] ?? null,
+            ]);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Chat validation error', ['errors' => $e->errors()]);
+            
+            return response()->json([
+                'success' => false,
+                'error' => 'Validation failed',
+                'message' => 'Please check your input and try again.'
+            ], 422);
+
+        } catch (\Exception $e) {
+            Log::error('Chat error', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'error' => 'Server error',
+                'message' => 'Sorry, I encountered an error. Please try again.'
+            ], 500);
         }
-
-        // Store user message
-        $userMessage = ChatMessage::create([
-            'conversation_id' => $conversationId,
-            'sender_type' => 'user',
-            'message' => $request->message,
-        ]);
-
-        // Broadcast user message
-        broadcast(new MessageSent($userMessage, $user));
-
-        // Get conversation context for AI
-        $context = $this->getConversationContext($conversationId);
-
-        // Generate AI response
-        $aiResponse = $this->geminiService->generateMedicalResponse(
-            $request->message,
-            $context
-        );
-
-        // Store AI message
-        $aiMessage = ChatMessage::create([
-            'conversation_id' => $conversationId,
-            'sender_type' => 'ai',
-            'message' => $aiResponse['response'],
-            'metadata' => $aiResponse['metadata'] ?? null,
-        ]);
-
-        // Broadcast AI message
-        broadcast(new MessageSent($aiMessage, $user));
-
-        return response()->json([
-            'success' => true,
-            'conversation_id' => $conversationId,
-            'user_message' => $userMessage,
-            'ai_message' => $aiMessage,
-        ]);
     }
 
     public function newConversation()
@@ -129,20 +169,5 @@ class ChatController extends Controller
         return $title;
     }
 
-    private function getConversationContext(int $conversationId): array
-    {
-        return ChatMessage::where('conversation_id', $conversationId)
-            ->orderBy('created_at', 'desc')
-            ->limit(10) // Last 10 messages for context
-            ->get()
-            ->reverse()
-            ->map(function ($message) {
-                return [
-                    'sender_type' => $message->sender_type,
-                    'message' => $message->message,
-                    'created_at' => $message->created_at,
-                ];
-            })
-            ->toArray();
-    }
+    // Fallback method removed; delegated to GeminiAIService
 }

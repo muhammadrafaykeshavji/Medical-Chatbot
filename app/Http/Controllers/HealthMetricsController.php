@@ -8,13 +8,35 @@ use Illuminate\Support\Facades\Auth;
 
 class HealthMetricsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $healthMetrics = Auth::user()->healthMetrics()
-            ->orderBy('recorded_at', 'desc')
-            ->paginate(15);
+        $query = Auth::user()->healthMetrics();
 
-        return view('health-metrics.index', compact('healthMetrics'));
+        // Apply filters if provided
+        if ($request->filled('type')) {
+            $query->where('metric_type', $request->type);
+        }
+
+        if ($request->filled('days')) {
+            $days = (int) $request->days;
+            $query->where('recorded_at', '>=', now()->subDays($days));
+        }
+
+        $healthMetrics = $query->orderBy('recorded_at', 'desc')->paginate(15);
+
+        // Get latest metrics for quick stats
+        $latestMetrics = Auth::user()->healthMetrics()
+            ->select('metric_type', 'value', 'systolic', 'diastolic', 'unit')
+            ->whereIn('id', function($subQuery) {
+                $subQuery->selectRaw('MAX(id)')
+                    ->from('health_metrics')
+                    ->where('user_id', Auth::id())
+                    ->groupBy('metric_type');
+            })
+            ->get()
+            ->keyBy('metric_type');
+
+        return view('health-metrics.index', compact('healthMetrics', 'latestMetrics'));
     }
 
     public function create()

@@ -5,16 +5,35 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HealthMetricsController;
 use App\Http\Controllers\SymptomCheckerController;
+use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\ReportAnalyzerController;
+use App\Http\Controllers\HealthPlanController;
 use App\Http\Controllers\Auth\SocialLoginController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/services', function () {
+    return view('services');
+});
+Route::get('/pricing', function () {
+    return view('pricing');
+});
+Route::get('/contact', function () {
+    return view('contact');
+});
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::get('/ai-dashboard', function () {
+    return view('ai-dashboard');
+})->middleware(['auth', 'verified'])->name('ai-dashboard');
+
 
 Route::middleware('auth')->group(function () {
     // Profile routes
@@ -46,7 +65,34 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [SymptomCheckerController::class, 'index'])->name('index');
         Route::get('/create', [SymptomCheckerController::class, 'create'])->name('create');
         Route::post('/', [SymptomCheckerController::class, 'store'])->name('store');
+        Route::post('/analyze', [SymptomCheckerController::class, 'analyze'])->name('analyze');
         Route::get('/{symptomCheck}', [SymptomCheckerController::class, 'show'])->name('show');
+    });
+    
+    // Find Doctors routes
+    Route::prefix('doctors')->name('doctors.')->group(function () {
+        Route::get('/', [DoctorController::class, 'index'])->name('index');
+        Route::get('/search', [DoctorController::class, 'search'])->name('search');
+        Route::post('/nearby', [DoctorController::class, 'nearby'])->name('nearby');
+        Route::get('/{doctor}', [DoctorController::class, 'show'])->name('show');
+    });
+    
+    // Report Analyzer routes
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('/', [ReportAnalyzerController::class, 'index'])->name('index');
+        Route::get('/upload', [ReportAnalyzerController::class, 'create'])->name('create');
+        Route::post('/analyze', [ReportAnalyzerController::class, 'analyze'])->name('analyze');
+        Route::get('/test-api', [ReportAnalyzerController::class, 'testApi'])->name('test-api');
+    });
+    
+    // Health Plan routes
+    Route::prefix('health-plans')->name('health-plans.')->group(function () {
+        Route::get('/', [HealthPlanController::class, 'index'])->name('index');
+        Route::get('/create', [HealthPlanController::class, 'create'])->name('create');
+        Route::post('/', [HealthPlanController::class, 'store'])->name('store');
+        Route::get('/{healthPlan}', [HealthPlanController::class, 'show'])->name('show');
+        Route::get('/{healthPlan}/edit', [HealthPlanController::class, 'edit'])->name('edit');
+        Route::patch('/{healthPlan}', [HealthPlanController::class, 'update'])->name('update');
     });
 });
 

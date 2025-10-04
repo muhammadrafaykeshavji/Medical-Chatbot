@@ -37,6 +37,15 @@ return [
 
     'gemini' => [
         'api_key' => env('GEMINI_API_KEY'),
+        'model' => env('GEMINI_MODEL', 'gemini-1.5-pro'),
+        'max_tokens' => env('GEMINI_MAX_TOKENS', 2048),
+        'api_version' => env('GEMINI_API_VERSION', 'v1'),
+    ],
+
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+        'model' => env('OPENAI_MODEL', 'gpt-5'),
+        'max_tokens' => env('OPENAI_MAX_TOKENS', 2048),
     ],
 
     'google' => [
@@ -49,6 +58,10 @@ return [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
         'redirect' => env('GITHUB_REDIRECT_URI'),
+    ],
+
+    'google_maps' => [
+        'key' => env('GOOGLE_MAPS_API_KEY'),
     ],
 
 ];

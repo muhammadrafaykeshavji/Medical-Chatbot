@@ -112,28 +112,49 @@ php artisan key:generate
 Edit your `.env` file with the following configurations:
 
 ```env
-# Database Configuration
+APP_NAME="Medical AI"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost:8000
+
 DB_CONNECTION=sqlite
-# DB_DATABASE=/path/to/database.sqlite
+DB_DATABASE=database/database.sqlite
+
+SESSION_DRIVER=database
+SESSION_LIFETIME=120
+
+MAIL_MAILER=log
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
 
 # AI Configuration
-GEMINI_API_KEY=your_gemini_api_key_here
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4o-mini
+OPENAI_MAX_TOKENS=2048
 
-# OAuth Configuration (Optional)
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
+# Legacy AI Configuration
+GEMINI_API_KEY=
+
+# OAuth Configuration
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 GOOGLE_REDIRECT_URI="${APP_URL}/auth/google/callback"
 
-GITHUB_CLIENT_ID=your_github_client_id
-GITHUB_CLIENT_SECRET=your_github_client_secret
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
 GITHUB_REDIRECT_URI="${APP_URL}/auth/github/callback"
 
-# Broadcasting Configuration (Optional - for real-time chat)
+# Broadcasting Configuration
 BROADCAST_DRIVER=pusher
-PUSHER_APP_ID=your_pusher_app_id
-PUSHER_APP_KEY=your_pusher_key
-PUSHER_APP_SECRET=your_pusher_secret
-PUSHER_APP_CLUSTER=your_cluster
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_HOST=
+PUSHER_PORT=443
+PUSHER_SCHEME=https
+PUSHER_APP_CLUSTER=mt1
+
 ```
 
 ### 5. Database Setup

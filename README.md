@@ -1,274 +1,346 @@
-# Medical Chatbot - AI-Powered Healthcare Assistant
+# Medical AI Chatbot - Comprehensive Healthcare Assistant
 
 <p align="center">
   <img src="https://img.shields.io/badge/Laravel-12.0-red?style=for-the-badge&logo=laravel" alt="Laravel">
   <img src="https://img.shields.io/badge/PHP-8.2+-blue?style=for-the-badge&logo=php" alt="PHP">
-  <img src="https://img.shields.io/badge/AI-Gemini-green?style=for-the-badge&logo=google" alt="Gemini AI">
+  <img src="https://img.shields.io/badge/AI-OpenAI%20GPT--4o-green?style=for-the-badge&logo=openai" alt="OpenAI GPT-4o">
   <img src="https://img.shields.io/badge/UI-TailwindCSS-cyan?style=for-the-badge&logo=tailwindcss" alt="TailwindCSS">
+  <img src="https://img.shields.io/badge/Database-SQLite-blue?style=for-the-badge&logo=sqlite" alt="SQLite">
 </p>
 
-## About Medical Chatbot
+## About Medical AI Chatbot
 
-The Medical Chatbot is a comprehensive AI-powered healthcare assistant built with Laravel 12 and PHP. It provides users with a secure platform for health-related inquiries, symptom checks, and personalized health tracking. The system integrates Google's Gemini AI for intelligent responses and supports real-time chat interactions.
+A comprehensive AI-powered healthcare assistant built with Laravel 12 and OpenAI's GPT-4o. This advanced medical chatbot provides users with intelligent health guidance, symptom analysis, medical report interpretation, and personalized health planning. The system features multilingual support (15+ languages), camera integration for document capture, and a complete doctor discovery platform with FREE mapping capabilities.
 
-## Features
+## 🚀 Key Features
 
-### Authentication & Security
-- Laravel Breeze authentication system
-- OAuth integration (Google & GitHub)
-- Secure session management
-- Data privacy protection
+### 🤖 Advanced AI Medical Assistant
+- **OpenAI GPT-4o Integration** - Professional-grade medical AI responses
+- **Three Specialized Modes**:
+  - **General Health**: Wellness guidance and health education
+  - **Symptom Discussion**: Structured symptom analysis with clarifying questions
+  - **Health Advice**: Evidence-based recommendations and self-care guidance
+- **Voice Input Support** - Web Speech API with cross-browser compatibility
+- **Chat Persistence** - Auto-save conversations with history management
+- **Emergency Detection** - Automatic identification of critical symptoms
 
-### AI-Powered Medical Assistant
-- Integration with Google Gemini AI
-- Context-aware conversations
-- Medical safety prompts and disclaimers
-- Intelligent health guidance
+### 🔍 Intelligent Symptom Checker
+- **AI-Powered Analysis** - Comprehensive symptom evaluation using GPT-4o
+- **Urgency Assessment** - Risk stratification (Low, Medium, High, Critical)
+- **Structured Questioning** - Systematic symptom exploration
+- **Professional Recommendations** - When to seek medical care
+- **Symptom Tracking** - Historical symptom patterns and trends
 
-### Symptom Checker
-- AI-powered symptom analysis
-- Urgency level assessment
-- Personalized recommendations
-- Doctor consultation suggestions
+### 📋 Advanced Report Analyzer
+- **Multi-Format Support** - PDF, DOC, DOCX, TXT, JPG, PNG, GIF, WEBP (up to 20MB)
+- **Camera Integration** - Real-time document capture with front/back camera support
+- **GPT-4 Vision Analysis** - Professional medical document interpretation
+- **Comprehensive Analysis Sections**:
+  - Document Overview & Clinical Context
+  - Detailed Findings & Lab Values
+  - Medical Interpretation & Pathophysiology
+  - Patient Education (jargon-free explanations)
+  - Risk Assessment & Health Implications
+  - Actionable Recommendations & Follow-up Care
+  - Emotional Support & Reassurance
+- **No Report Type Selection** - Automatic document type detection
 
-### Health Metrics Tracking
-- Blood pressure monitoring
-- Blood sugar tracking
-- Weight management
-- Heart rate monitoring
-- Temperature logging
-- Interactive Chart.js visualizations
+### 🏥 Doctor Discovery Platform
+- **FREE OpenStreetMap Integration** - No API keys required
+- **Location-Based Search** - "Near Me" functionality with geolocation
+- **Disease-to-Specialty Mapping** - Intelligent specialist recommendations
+- **Interactive Map View** - Custom markers and rich popups
+- **Comprehensive Database** - 15+ specialties with realistic doctor profiles
+- **Advanced Filtering** - By specialty, location, rating, and availability
 
-### Real-Time Chat
-- WebSocket-powered real-time messaging
-- Voice input support (Speech-to-Text)
-- Conversation history
-- Multiple chat types (General, Symptom Check, Health Advice)
+### 📊 Health Metrics Tracking
+- **Multiple Metrics** - Blood pressure, glucose, weight, heart rate, temperature
+- **Interactive Charts** - Chart.js visualizations with trend analysis
+- **Historical Data** - Long-term health monitoring
+- **Export Capabilities** - Data export for healthcare providers
 
-### Modern UI/UX
-- Responsive design with TailwindCSS
-- Intuitive dashboard
-- Mobile-friendly interface
-- Accessibility features
+### 🌍 Multilingual Support
+- **15+ Languages** - Including RTL support for Arabic, Urdu, Persian
+- **Auto-Detection** - Smart language identification from user input
+- **Cultural Context** - Medically appropriate responses for each culture
+- **Emergency Localization** - Critical health warnings in native languages
 
-## Technology Stack
+### 🎯 Personalized Health Plans
+- **AI-Generated Plans** - Customized health and wellness strategies
+- **Goal Tracking** - Progress monitoring and milestone achievements
+- **Template Library** - Pre-built plans for common health goals
+- **Lifestyle Integration** - Diet, exercise, and wellness recommendations
+
+### 🔒 Authentication & Security
+- **Laravel Breeze** - Secure authentication system
+- **OAuth Integration** - Google & GitHub social login
+- **Data Encryption** - All health data encrypted and secured
+- **Privacy Compliance** - GDPR-ready data handling
+
+## 🛠 Technology Stack
 
 ### Backend
-- **Framework**: Laravel 12
+- **Framework**: Laravel 12.0
 - **Language**: PHP 8.2+
-- **Database**: SQLite/MySQL/PostgreSQL
-- **AI Integration**: Google Gemini AI
-- **Authentication**: Laravel Breeze + Socialite
-- **Real-time**: Pusher/WebSockets
+- **Database**: SQLite (default), MySQL/PostgreSQL support
+- **AI Services**: 
+  - OpenAI GPT-4o (primary)
+  - Google Gemini (legacy support)
+- **Authentication**: Laravel Breeze + Socialite (Google, GitHub)
+- **Real-time**: Pusher WebSockets
+- **File Processing**: Multi-format document handling
 
 ### Frontend
-- **CSS Framework**: TailwindCSS 4.0
-- **JavaScript**: Alpine.js
-- **Charts**: Chart.js
+- **CSS Framework**: TailwindCSS 4.0 with @tailwindcss/forms
+- **JavaScript**: Alpine.js 3.x
+- **Charts**: Chart.js 4.4
+- **Maps**: Leaflet.js + OpenStreetMap (FREE)
 - **Icons**: Heroicons
-- **Build Tool**: Vite
+- **Build Tool**: Vite 7.0
 
-### Key Packages
-- `laravel/socialite` - OAuth authentication
-- `guzzlehttp/guzzle` - HTTP client for API requests
-- `spatie/laravel-permission` - Role and permission management
-- `pusher/pusher-php-server` - Real-time functionality
+### Key Dependencies
+```json
+{
+  "laravel/framework": "^12.0",
+  "laravel/breeze": "^2.3",
+  "laravel/socialite": "^5.23",
+  "guzzlehttp/guzzle": "^7.10",
+  "spatie/laravel-permission": "^6.21",
+  "pusher/pusher-php-server": "^7.2"
+}
+```
 
-## Prerequisites
+## 📋 Prerequisites
 
-- PHP 8.2 or higher
-- Composer
-- Node.js & NPM
-- SQLite/MySQL/PostgreSQL
-- Google Gemini AI API key
+- **PHP**: 8.2 or higher
+- **Composer**: Latest version
+- **Node.js**: 18+ with NPM
+- **Database**: SQLite (included) or MySQL/PostgreSQL
+- **OpenAI API Key**: For AI functionality
+- **Optional**: Google/GitHub OAuth credentials, Pusher account
 
-## Installation
+## 🚀 Quick Start Installation
 
-### 1. Clone the Repository
+### 1. Clone & Setup
 ```bash
 git clone <repository-url>
 cd medical-chatbot
-```
-
-### 2. Install Dependencies
-```bash
-# Install PHP dependencies
 composer install
-
-# Install Node.js dependencies
 npm install
 ```
 
-### 3. Environment Configuration
+### 2. Environment Configuration
 ```bash
-# Copy environment file
 cp .env.example .env
-
-# Generate application key
 php artisan key:generate
 ```
 
-### 4. Configure Environment Variables
-Edit your `.env` file with the following configurations:
+### 3. Configure Environment Variables
+Edit `.env` file:
 
 ```env
 APP_NAME="Medical AI"
 APP_ENV=local
-APP_KEY=
+APP_KEY=base64:your-generated-key
 APP_DEBUG=true
 APP_URL=http://localhost:8000
 
+# Database (SQLite - No setup required)
 DB_CONNECTION=sqlite
 DB_DATABASE=database/database.sqlite
 
-SESSION_DRIVER=database
-SESSION_LIFETIME=120
-
-MAIL_MAILER=log
-MAIL_FROM_ADDRESS="hello@example.com"
-MAIL_FROM_NAME="${APP_NAME}"
-
-# AI Configuration
-OPENAI_API_KEY=
-OPENAI_MODEL=gpt-4o-mini
+# AI Configuration (Required)
+OPENAI_API_KEY=your_openai_api_key_here
+OPENAI_MODEL=gpt-4o
 OPENAI_MAX_TOKENS=2048
 
-# Legacy AI Configuration
-GEMINI_API_KEY=
+# OAuth (Optional)
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
 
-# OAuth Configuration
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-GOOGLE_REDIRECT_URI="${APP_URL}/auth/google/callback"
-
-GITHUB_CLIENT_ID=
-GITHUB_CLIENT_SECRET=
-GITHUB_REDIRECT_URI="${APP_URL}/auth/github/callback"
-
-# Broadcasting Configuration
+# Real-time Chat (Optional)
 BROADCAST_DRIVER=pusher
-PUSHER_APP_ID=
-PUSHER_APP_KEY=
-PUSHER_APP_SECRET=
-PUSHER_HOST=
-PUSHER_PORT=443
-PUSHER_SCHEME=https
+PUSHER_APP_ID=your_pusher_app_id
+PUSHER_APP_KEY=your_pusher_key
+PUSHER_APP_SECRET=your_pusher_secret
 PUSHER_APP_CLUSTER=mt1
-
 ```
 
-### 5. Database Setup
+### 4. Database & Assets
 ```bash
-# Run migrations
+# Setup database
 php artisan migrate
+php artisan db:seed  # Optional: Sample data
 
-# (Optional) Seed database
-php artisan db:seed
+# Build frontend
+npm run build  # Production
+# OR
+npm run dev    # Development
 ```
 
-### 6. Build Assets
+### 5. Launch Application
 ```bash
-# Build frontend assets
-npm run build
-
-# Or for development
-npm run dev
-```
-
-### 7. Start the Application
-```bash
-# Start Laravel development server
 php artisan serve
-
-# The application will be available at http://localhost:8000
+# Visit: http://localhost:8000
 ```
 
-## Configuration
+## ⚙️ Configuration Guide
 
-### Gemini AI Setup
-1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Create a new API key
-3. Add the key to your `.env` file as `GEMINI_API_KEY`
+### OpenAI API Setup (Required)
+1. Visit [OpenAI Platform](https://platform.openai.com/api-keys)
+2. Create API key
+3. Add to `.env`: `OPENAI_API_KEY=your_key_here`
 
 ### OAuth Setup (Optional)
 #### Google OAuth
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select existing
-3. Enable Google+ API
-4. Create OAuth 2.0 credentials
-5. Add authorized redirect URI: `http://localhost:8000/auth/google/callback`
+1. [Google Cloud Console](https://console.cloud.google.com/) → Create project
+2. Enable Google+ API
+3. Create OAuth 2.0 credentials
+4. Authorized redirect: `http://localhost:8000/auth/google/callback`
 
 #### GitHub OAuth
-1. Go to GitHub Settings > Developer settings > OAuth Apps
-2. Create a new OAuth App
-3. Set Authorization callback URL: `http://localhost:8000/auth/github/callback`
+1. GitHub Settings → Developer settings → OAuth Apps
+2. New OAuth App
+3. Authorization callback: `http://localhost:8000/auth/github/callback`
 
-### Real-time Chat Setup (Optional)
-1. Create account at [Pusher](https://pusher.com/)
-2. Create a new app
-3. Add credentials to `.env` file
+### Real-time Chat (Optional)
+1. Create [Pusher](https://pusher.com/) account
+2. Create new app
+3. Add credentials to `.env`
 
-## Usage
+## 📱 Usage Guide
 
-### Dashboard
-- View health metrics overview
-- Access recent conversations
-- Quick access to symptom checker
-- Health trends visualization
+### 🏠 Dashboard
+- **Health Overview**: Metrics summary and trends
+- **Recent Activity**: Chat history and health records
+- **Quick Actions**: Direct access to all features
+- **AI Insights**: Personalized health recommendations
 
-### AI Chat
-- Start conversations with medical AI
-- Get health advice and information
-- Voice input support
-- Real-time messaging
+### 💬 AI Chat Assistant
+- **Three Modes**: General Health, Symptom Discussion, Health Advice
+- **Voice Input**: Click microphone for speech-to-text
+- **Conversation History**: Auto-saved with manual save/load options
+- **Multilingual**: Automatic language detection and response
 
-### Symptom Checker
-- Input symptoms for AI analysis
-- Receive urgency level assessment
-- Get personalized recommendations
-- Track symptom history
+### 🔍 Symptom Checker
+- **Smart Analysis**: Describe symptoms in natural language
+- **Urgency Levels**: Color-coded risk assessment
+- **Follow-up Questions**: AI asks clarifying questions
+- **Professional Guidance**: When to seek medical care
 
-### Health Metrics
-- Record various health measurements
-- View trends with interactive charts
-- Set medication reminders
-- Export health data
+### 📋 Report Analyzer
+- **Upload Methods**: Drag-drop files or camera capture
+- **Comprehensive Analysis**: 8+ detailed sections
+- **Professional Quality**: Hospital-grade medical interpretation
+- **Patient-Friendly**: Clear explanations without medical jargon
 
-## Security & Privacy
+### 🏥 Doctor Discovery
+- **Map View**: Interactive OpenStreetMap with doctor locations
+- **Smart Search**: Disease-based specialist recommendations
+- **Location Services**: "Near Me" with GPS integration
+- **Detailed Profiles**: Specialties, languages, insurance, ratings
 
-- All health data is encrypted and secured
-- GDPR compliant data handling
-- Secure authentication mechanisms
-- Medical disclaimers and safety warnings
-- No diagnostic claims - informational only
+### 📊 Health Metrics
+- **Multiple Tracking**: BP, glucose, weight, heart rate, temperature
+- **Visual Trends**: Interactive Chart.js graphs
+- **Goal Setting**: Target ranges and progress monitoring
+- **Data Export**: Share with healthcare providers
 
-## Medical Disclaimer
+## 🔒 Security & Privacy
 
-**IMPORTANT**: This application provides general health information and should not replace professional medical advice, diagnosis, or treatment. Always consult with qualified healthcare providers for medical concerns. In case of emergency, contact emergency services immediately.
+### Data Protection
+- **Encryption**: All health data encrypted at rest and in transit
+- **Authentication**: Secure Laravel Breeze implementation
+- **Session Management**: Configurable session timeouts
+- **File Security**: Secure upload handling with validation
 
-## Contributing
+### Medical Safety
+- **Professional Disclaimers**: Clear limitations and recommendations
+- **Emergency Detection**: Automatic identification of critical symptoms
+- **No Diagnosis Claims**: Educational information only
+- **Healthcare Provider Referrals**: Encourages professional consultation
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+### Privacy Compliance
+- **GDPR Ready**: Data protection and user rights
+- **Minimal Data Collection**: Only necessary health information
+- **User Control**: Data export and deletion capabilities
+- **Secure Storage**: Local SQLite database by default
 
-## License
+## 🌟 Advanced Features
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Multilingual AI Responses
+- **15+ Languages**: English, Arabic, Spanish, French, German, Italian, Portuguese, Russian, Chinese, Japanese, Korean, Hindi, Turkish, Urdu, Persian
+- **RTL Support**: Right-to-left layout for Arabic, Urdu, Persian
+- **Cultural Context**: Medically appropriate responses for each culture
+- **Auto-Detection**: Smart language identification from user input
 
-## Acknowledgments
+### Camera Integration
+- **Real-time Capture**: Live camera preview with capture controls
+- **Multi-Camera Support**: Front/back camera selection
+- **High Quality**: Optimized image capture for document analysis
+- **Seamless Integration**: Direct integration with report analyzer
 
-- Laravel Framework team
-- Google Gemini AI team
-- TailwindCSS team
-- Chart.js contributors
-- All open-source contributors
+### FREE Mapping Solution
+- **No API Keys**: OpenStreetMap + Nominatim (completely free)
+- **No Limits**: Unlimited map views and geocoding requests
+- **Rich Features**: Custom markers, popups, distance calculation
+- **Mobile Optimized**: Responsive design for all devices
 
-## Support
+## 🚨 Medical Disclaimer
 
-For support and questions:
-- Create an issue in the repository
-- Check the documentation
-- Review the medical disclaimer
+**IMPORTANT NOTICE**: This application provides general health information and educational content only. It is NOT intended to replace professional medical advice, diagnosis, or treatment.
+
+- **Always consult qualified healthcare providers** for medical concerns
+- **Emergency situations**: Contact emergency services immediately (911, 999, etc.)
+- **No diagnostic claims**: This system provides information, not medical diagnoses
+- **Professional consultation required**: For all health decisions and treatments
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. **Fork** the repository
+2. **Create** feature branch: `git checkout -b feature/amazing-feature`
+3. **Commit** changes: `git commit -m 'Add amazing feature'`
+4. **Push** to branch: `git push origin feature/amazing-feature`
+5. **Open** Pull Request
+
+### Development Guidelines
+- Follow PSR-12 coding standards
+- Add tests for new features
+- Update documentation
+- Maintain medical safety protocols
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- **Laravel Framework** - Robust PHP framework
+- **OpenAI** - Advanced AI capabilities
+- **TailwindCSS** - Modern UI framework
+- **OpenStreetMap** - Free mapping solution
+- **Chart.js** - Interactive data visualization
+- **All Contributors** - Community support and contributions
+
+## 📞 Support & Documentation
+
+### Getting Help
+- **Issues**: Create GitHub issue for bugs/features
+- **Documentation**: Check project wiki and inline comments
+- **Medical Questions**: Consult healthcare professionals
+- **Technical Support**: Review setup guides and error logs
+
+### Additional Resources
+- `OPENAI_MIGRATION.md` - AI service migration guide
+- `GOOGLE_MAPS_SETUP.md` - Mapping configuration
+- `MYSQL_SETUP.md` - Database alternatives
+- Inline code documentation and comments
+
+---
+
+**Built with ❤️ for better healthcare accessibility**
+
